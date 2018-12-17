@@ -68,10 +68,24 @@ function main() {
   // console.log(answer2);
   //console.log(anagramGrouping(['east', 'cars', 'acre', 'arcs', 'teas', 'eats', 'race']));
 
-  const map2 = new Hashmap2();
-  map2.set('bob');
-  map2.set('bob');
-  console.log(map2);
+  const lor = new Hashmap2();
+  lor.set('Hobbit', 'Bilbo');
+  lor.set('Hobbit', 'Frodo');
+  lor.set('Wizard', 'Gandolf');
+  lor.set('Human', 'Aragon');
+  lor.set('Elf', 'Legolas');
+  lor.set('Maiar', 'The Necromancer');
+  lor.set('Maiar', 'Sauron');
+  lor.set('LadyOfLight', 'Galadriel'); 
+  lor.set('HalfElven', 'Arwen'); 
+  lor.set('Ent', 'Treebeard');
+
+  console.log(lor);
+  //console.log(lor.get('Maiar'));
+  lor.remove('Ent');
+  console.log(lor);
+  lor.set('Ent', 'Treebeard');
+  console.log(lor);
 
 }
 

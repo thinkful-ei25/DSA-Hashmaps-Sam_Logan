@@ -16,21 +16,91 @@ class Hashmap2 {
     return hash >>> 0;
   }
 
-
-  set(item){
-    let key = Hashmap2._hashString(item);
-    let node = new hashNode(item);
-    if(this._slots[key]){
-      node.next = this._slots[key];
+  get(key){
+    const index = this._findSlot(key);
+    if(this._slots[index]=== undefined){
+      throw new Error('Key error');
     }
-    this._slots[key] = node;
+    let output = [];
+    let slot = this._slots[index];
+    output.push(slot.value);
+    while(slot&&slot.next){
+      if(slot.next){
+        output.push(slot.next.value);
+        slot = slot.net;
+      }
+    }
+    return output;
   }
+
+  set(key, value){
+    const loadRatio = (this.length + 1)/this._capacity;
+    if(loadRatio > Hashmap2.MAX_LOAD_RATIO){
+      this._resize(this._capacity*Hashmap2.SIZE_RATIO);
+    }
+    let index = this._findSlot(key);
+    let node = new hashNode(key,value);
+    if(this._slots[index]){
+      node.next = this._slots[index];
+    }
+    this._slots[index] = node;
+    this.length++;
+  }
+
+  remove(key){
+    const index = this._findSlot(key);
+    const slot = this._slots[index];
+    if(slot === undefined){
+      throw new Error('Key error');
+    }
+    this._slots[index]=undefined;
+    this.length --;
+  }
+
+  _findSlot(key){
+    const hash = Hashmap2._hashString(key);
+    const start = hash % this._capacity;
+    for(let i=start; i<start+this._capacity;i++){
+      const index = i % this._capacity;
+      const slot = this._slots[index];
+      if(slot === undefined || slot.key == key){
+        return index;
+      }
+    }
+  }
+
+  _resize(size){
+    const oldSlots = this._slots;
+    this._capacity = size;
+    this.length = 0;
+    this._slots = [];
+    for(let i =0; i<oldSlots.length; i++){
+      let slot = oldSlots[i];
+      if(slot!==undefined){
+        this.set(slot.key,slot.value);
+      }
+      
+      while (slot&&slot.next) {
+        if(slot.next){
+          this.set(slot.next.key, slot.next.value);
+        }
+        slot = slot.next;
+        
+      }
+      
+    }
+  }
+
 }
 
+Hashmap2.MAX_LOAD_RATIO = 0.9;
+Hashmap2.SIZE_RATIO = 3;
+
 class hashNode{
-  constructor(value){
+  constructor(key, value){
+    this.key = key;
     this.value = value;
-    this.next;
+    this.next = null;
   }
 }
 
