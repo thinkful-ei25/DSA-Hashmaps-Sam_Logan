@@ -1,5 +1,6 @@
 'use strict';
 const Hashmap = require('./hashmap');
+const Hashmap2 = require('./hashmap2');
 
 
 function permutationPalindrome(s) {
@@ -65,7 +66,13 @@ function main() {
   // console.log(answer);
   // const answer2 = permutationPalindrome('carrace');
   // console.log(answer2);
-  console.log(anagramGrouping(['east', 'cars', 'acre', 'arcs', 'teas', 'eats', 'race']));
+  //console.log(anagramGrouping(['east', 'cars', 'acre', 'arcs', 'teas', 'eats', 'race']));
+
+  const map2 = new Hashmap2();
+  map2.set('bob');
+  map2.set('bob');
+  console.log(map2);
+
 }
 
 main();
