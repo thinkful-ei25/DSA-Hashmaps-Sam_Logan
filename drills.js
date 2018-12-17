@@ -2,28 +2,50 @@
 const Hashmap = require('./hashmap');
 
 
-function permutationPalindrome(s){
+function permutationPalindrome(s) {
   const map = new Hashmap();
-  for(let i=0; i<s.length; i++){
+  for (let i = 0; i < s.length; i++) {
     let count = 0;
-    try{
-      if(map.get(s.charAt(i))){
+    try {
+      if (map.get(s.charAt(i))) {
         count = map.get(s.charAt(i));
       }
-    } catch(err){
+    } catch (err) {
       count = 0;
     }
-    map.set(s.charAt(i),count+1);
+    map.set(s.charAt(i), count + 1);
   }
-  let n =0;
-  for(let i =0; i<s.length; i++){
+  let n = 0;
+  for (let i = 0; i < s.length; i++) {
     let key = s.charAt(i);
-    n += map.get(key)%2;
+    n += map.get(key) % 2;
   }
-  return (n <=1);
+  return (n <= 1);
 }
 
-function main(){
+function anagramGrouping(anagrams) {
+  const map = new Hashmap();
+  const keysArray = [];
+
+  for (let word of anagrams) {
+    let testWord = word.split('').sort().join('');
+    try {
+      map.set(testWord, [...map.get(testWord), word]);
+    }
+    catch (e) {
+      map.set(testWord, [word]);
+      keysArray.push(testWord);
+    }
+  }
+
+  let resultsArray = [];
+  for (let key of keysArray) {
+    resultsArray.push(map.get(key));
+  }
+  return resultsArray;
+}
+
+function main() {
   // const lor = new Hashmap();
   // lor.set('Hobbit', 'Bilbo');
   // lor.set('Hobbit', 'Frodo');
@@ -39,10 +61,11 @@ function main(){
   //console.log(lor.get('Maiar'));
   //console.log(lor);
 
-  const answer = permutationPalindrome('racecar');
-  console.log(answer);
-  const answer2 = permutationPalindrome('carrace');
-  console.log(answer2);
+  // const answer = permutationPalindrome('racecar');
+  // console.log(answer);
+  // const answer2 = permutationPalindrome('carrace');
+  // console.log(answer2);
+  console.log(anagramGrouping(['east', 'cars', 'acre', 'arcs', 'teas', 'eats', 'race']));
 }
 
 main();
